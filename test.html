@@ -9,48 +9,59 @@
   <script type="text/javascript">
   var log = console.log;
 
-  log('case 1:');
-  log(zipObjectDeep(12, [1]));
-  log(zipObjectDeep(['a'], 12));
-  log(zipObjectDeep(12, 12));
+  log('Group 1:');
+  log('case 1:', zipObjectDeep());
+  log('case 2:', zipObjectDeep(['one', 'two']));
+  log('case 3:', zipObjectDeep(12, [1, 2]));
+  log('case 4:', zipObjectDeep(['one', 'two'], 12));
+  log('case 5:', zipObjectDeep(12, 12));
 
-  log('case 2:');
-  log(zipObjectDeep(['a.b[0]["c"].d', 'a.b[1]["c"].d'], [1, 2]));
-  log(zipObjectDeep([['a', 'b', '0', 'c', 'd'], ['a', 'b', '1', 'c', 'd']], [1, 2]));
-  log(zipObjectDeep(['a.b[0]["c"].d', 'a.b[1]["c"].d'], [1]));
-  log(zipObjectDeep([['a', 'b', '0', 'c', 'd'], ['a', 'b', '1', 'c', 'd']], [1]));
-  log(zipObjectDeep(['a.b[0]["c"].d', 'a.b[1]["c"].d'], []));
-  log(zipObjectDeep([['a', 'b', '0', 'c', 'd'], ['a', 'b', '1', 'c', 'd']], []));
-  log(zipObjectDeep(['a.b[0]["c"].d'], [1, 2]));
-  log(zipObjectDeep([['a', 'b', '0', 'c', 'd']], [1, 2]));
-  log(zipObjectDeep([], [1, 2]));
-  log(zipObjectDeep(['a.b[0]["c"].d']));
-  log(zipObjectDeep([['a', 'b', '0', 'c', 'd']]));
-  log(zipObjectDeep([]));
-  log(zipObjectDeep());
+  log('Group 2:');
+  log('case 1:', zipObjectDeep(['a.a.a', 'a.a.b'], [1, 2]));
+  log('case 2:', zipObjectDeep(['.a'], [1]));
+  log('case 3:', zipObjectDeep(['a.'], [1]));
+  log('case 4:', zipObjectDeep(['[a][a][a]', '[a][a][b]'], [1, 2]));
+  log('case 5:', zipObjectDeep(['["a"]["a"]["a"]', '["a"]["a"]["b"]'], [1, 2]));
+  log('case 6:', zipObjectDeep(["['a']['a']['a']", "['a']['a']['b']"], [1, 2]));
+  log('case 7:', zipObjectDeep(['0.0.0', '0.0.1'], [1, 2]));
+  log('case 8:', zipObjectDeep(['.0'], [1]));
+  log('case 9:', zipObjectDeep(['0.'], [1]));
+  log('case 10:', zipObjectDeep(['[0][0][0]', '[0][0][1]'], [1, 2]));
+  log('case 11:', zipObjectDeep(['["0"]["0"]["0"]', '["0"]["0"]["1"]'], [1, 2]));
+  log('case 12:', zipObjectDeep(["['0']['0']['0']", "['0']['0']['1']"], [1, 2]));
+  log('case 13:', zipObjectDeep(['[0.1][0.1][0.1]'], [1]));
+  log('case 14:', zipObjectDeep(['[.1][.1][.1]'], [1]));
+  log('case 15:', zipObjectDeep(['[0.][0.][0.]'], [1]));
+  log('case 16:', zipObjectDeep(['[".1"][".1"][".1"]'], [1]));
+  log('case 17:', zipObjectDeep(['["0."]["0."]["0."]'], [1]));
+  log('case 18:', zipObjectDeep(['[.1k]'], [1]));
+  log('case 19:', zipObjectDeep(['[k1.]'], [1]));
+  log('case 20:', zipObjectDeep(['[k1.1k]'], [1]));
+  log('case 21:', zipObjectDeep(['[".1k"]'], [1]));
+  log('case 22:', zipObjectDeep(['["k1."]'], [1]));
+  log('case 23:', zipObjectDeep(['["k1.1k"]'], [1]));
+  log('case 24:', zipObjectDeep(['[2[2.3]4]'], [1]));
+  log('case 25:', zipObjectDeep(['["2[2.3]4"]'], [1]));
+  log('case 26:', zipObjectDeep(['[\'2[\\2.\\3]4\']'], [1]));
+  log('case 27:', zipObjectDeep(['[2[\\2.\\3]4]'], [1]));
+  log('case 28:', zipObjectDeep([''], [1]));
 
-  log('case 3:');
-  log(zipObjectDeep(['a.b.c', 'a.b.d'], [1, 2]));
-  log(zipObjectDeep(['["a"]["b"]["c"]', "['a']['b']['d']"], [1, 2]));
-  log(zipObjectDeep(['a.b', 'a.c.d'], [1, 2]));
-  log(zipObjectDeep(['["a"]["b"]',"['a']['c']['d']"], [1, 2]));
-  log(zipObjectDeep(['a', 'b.c.d'], [1, 2]));
-  log(zipObjectDeep(['["a"]', "['b']['c']['d']"], [1, 2]));
-  log(zipObjectDeep(['', 'a.b.c'], [1, 2]));
-  log(zipObjectDeep(['', "['a']['b']['c']"], [1, 2]));
+  log('Group 3:');
+  log('case 1:', zipObjectDeep([[]], [1]));
+  log('case 2:', zipObjectDeep([[], []], [1, 2]));
+  log('case 3:', zipObjectDeep([[false, null, 0, '']], [1]));
+  log('case 4:', zipObjectDeep([['a', 'a', 'a'], ['a', 'a', 'b']], [1, 2]));
+  log('case 5:', zipObjectDeep([[0.1, 0.2]], [1]));
+  log('case 6:', zipObjectDeep([[0, 0, 0], [0, 0, 1]], [1, 2]));
 
-  log('case 4:');
-  log(zipObjectDeep(['[0][0]', '[0][1]'], [1, 2]));
-  log(zipObjectDeep(['[0.3][0.4]', '[0.3][3.89]'], [1, 2]));
-  log(zipObjectDeep(['0.0', '0.1'], [1, 2]));
-  log(zipObjectDeep(['0.0kt', '0.1kt'], [1, 2]));
-  log(zipObjectDeep(['kt0.0', 'kt0.1'], [1, 2]));
-  log(zipObjectDeep(['[0.0kt]', '[0.1kt]'], [1, 2]));
-  log(zipObjectDeep(['[kt0.0]', '[kt0.1]'], [1, 2]));
-
-  log('case 5:');
-  log(zipObjectDeep([[0, false, null, undefined, '']],[1]));
-  log(zipObjectDeep([[0, 0, 0]], [1]));
+  log('Group 4:');
+  log('case 1:', zipObjectDeep(['a.a', 'a.b'], []));
+  log('case 2:', zipObjectDeep(['a.a', 'a.b'], [1]));
+  log('case 3:', zipObjectDeep([], [1, 2]));
+  log('case 4:', zipObjectDeep(['a.a'], [1, 2]));
+  log('case 5:', zipObjectDeep([['a', 'a'], ['a', 'b']], []));
+  log('case 6:', zipObjectDeep([['a', 'a'], ['a', 'b']], [1]));
+  log('case 7:', zipObjectDeep([['a', 'a']], [1, 2]));
   </script>
 </body>
 </html>
