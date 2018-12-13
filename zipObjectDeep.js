@@ -1,10 +1,38 @@
+/**
+ * 2018-12-13
+ * @copyright LinWei 2018
+ * 
+ * Create object with key-path and corresponding values.
+ * 
+ * @param {Array} [props=[]] The array of key-path.
+ * @param {Array} [values=[]] The array of corresponding values.
+ * @return {Object} The result object.
+ * @example
+ *
+ * zipObjectDeep(['a', 'b'], [1, 2]);
+ * // => {'a': 1, 'b': 2}
+ *
+ * zipObjectDeep(['a.a.a', 'a.a.b'], [1, 2]);
+ * // => {'a': {'a': {'a': 1, 'b': 2}}}
+ *
+ * zipObjectDeep(['["a"]["a"]["a"]', '["a"]["a"]["b"]'], [1, 2]);
+ * // => {'a': {'a': {'a': 1, 'b': 2}}}
+ *
+ * zipObjectDeep(['a[0]', 'a[1]'], [1, 2]);
+ * // => {'a': [1, 2]}
+ *
+ * zipObjectDeep([['a', 'a'], ['a', 'b']], [1, 2]);
+ * // => {'a': {'a': 1, 'b': 2}}
+ */
 if (!window.zipObjectDeep) {
   var zipObjectDeep = (function() {
     "use strict";
 
+    /** Used to process the property name. */
     var regPropName = /[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]|(?=(?:\.|\[\])(?:\.|\[\]|$))/g,
         regTrim = /^\[["']?|["']?\]$/g;
 
+    /** Bulid-in method. */
     var isArray = Array.isArray,
         isInteger = Number.isInteger;
 
@@ -25,6 +53,7 @@ if (!window.zipObjectDeep) {
       }
     };
 
+    // Base implement of zipObjectDeep.
     var baseZipObjectDeep = function(props, values) {
       var result = {},
           index = -1,
