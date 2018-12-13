@@ -2,7 +2,8 @@ if (!window.zipObjectDeep) {
   var zipObjectDeep = (function() {
     "use strict";
 
-    var regSplit = /\[["']|["']\]|\[\.|\[(?=-?\d+\.\d+)|\.?\[|\]\.?|\.(?!.*["']|\d+\])|\.(?=\d*[^\d\]]+)/;
+    var regPropName = /[^.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]|(?=(?:\.|\[\])(?:\.|\[\]|$))/g,
+        regTrim = /^\[["']?|["']?\]$/g;
 
     var isArray = Array.isArray,
         isInteger = Number.isInteger;
@@ -12,28 +13,16 @@ if (!window.zipObjectDeep) {
     };
 
     var addProperty = function(object, keys, length, value, index) {
-      var key = keys[index];
+      var key = ('' + keys[index]).replace(regTrim, '');
       if (index < length - 1) {
         if (!hasOwnProperty(object, key)) {
-          var next = keys[index + 1];
-          object[key] = isInteger(+next) && next !== null && next !== false ? [] : {};
+          var next = ('' + keys[index + 1]).replace(regTrim, '');
+          object[key] = isInteger(+next) && next !== null && next !== false && next !== '' ? [] : {};
         }
         addProperty(object[key], keys, length, value, index + 1);
       } else {
         object[key] = value;
       }
-    };
-
-    var removeEmpty = function(array) {
-      var index = -1,
-          length = array.length;
-
-      while (++index < length) {
-        if (!('' + array[index])) {
-          array.splice(index, 1);
-        }
-      }   
-      return array; 
     };
 
     var baseZipObjectDeep = function(props, values) {
@@ -43,9 +32,11 @@ if (!window.zipObjectDeep) {
 
       while (++index < length) {
         var path = props[index],
-            keys = removeEmpty(isArray(path) ? path : ('' + path).split(regSplit));
+            keys = isArray(path) ? path : ('' + path).match(regPropName) || [''];
 
-        addProperty(result, keys, keys.length, values[index], 0);
+        if (keys.length) {
+          addProperty(result, keys, keys.length, values[index], 0);
+        }
       }
       return result;
     };
